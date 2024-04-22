@@ -1,11 +1,15 @@
-"use client"
-
 import createBoard from "@/actions/createBoard";
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { Button } from "@/components/ui/button"
 import { useFormState, useFormStatus } from "react-dom";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { BoardOptimisticUpdate } from "./boards";
+import { useToast } from "@/components/ui/use-toast"
+
+type Props = {
+  optimisticBoardsUpdate: BoardOptimisticUpdate
+}
 
 function Submit() {
   const { pending } = useFormStatus()
@@ -20,18 +24,43 @@ const initialState: {
 }
 
 
-export default function CreateBoardForm() {
+export default function CreateBoardForm({
+  optimisticBoardsUpdate
+}: Props) {
   const [state, formAction] = useFormState(createBoard, initialState)
   const formRef = useRef<HTMLFormElement>(null)
+  const { toast } = useToast()
+
+  function action(data: FormData) {
+    optimisticBoardsUpdate({
+      action: "create",
+      board: {
+        id: "",
+        title: data.get("title") as string,
+        description: data.get("description") as string,
+        createdAt: "",
+        updatedAt: ""
+      }
+    })
+    toast({
+      title: "Board created succesfully",
+      className: "bg-primary text-primary-foreground"
+    })
+    formRef.current?.reset()
+    formAction(data)
+  }
+
+  // useEffect(() => {
+  //   if (state.message === "success") {
+  //     toast({
+  //       title: "Board created succesfully",
+  //       className: "bg-primary text-primary-foreground"
+  //     })
+  //   }
+  // }, [state])
 
   return (
-    <form ref={formRef} action={(data) => {
-      formRef.current?.reset()
-      formAction(data)
-    }} className="max-w-lg space-y-4">
-      {state.message &&
-        <p>{state.message}</p>
-      }
+    <form ref={formRef} action={action} className="max-w-lg space-y-4">
       <Input name="title" type="text" placeholder="Enter new board title" />
       <Textarea name="description" placeholder="Enter new board Description" />
       <Submit />
