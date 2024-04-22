@@ -1,6 +1,8 @@
 import { SignOutButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button"
 import { getBoards } from "@/services/boardService";
+import CreateBoardForm from "@/components/create-board-form"
+import BoardList from "@/components/board-list"
 
 export default async function BoardPage() {
   const boards = await getBoards()
@@ -9,11 +11,9 @@ export default async function BoardPage() {
       <SignOutButton redirectUrl="/">
         <Button>Sign Out</Button>
       </SignOutButton>
-      <div>
-        {boards?.map(board => (
-          <div key={board.id}>{board.title} - {board.createdAt}</div>
-        ))}
-      </div>
+
+      <CreateBoardForm />
+      <BoardList boards={boards} />
     </div>
   )
 }
