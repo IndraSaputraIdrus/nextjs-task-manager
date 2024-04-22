@@ -13,7 +13,7 @@ export default function HomePage() {
 
   return (
     <main className="min-h-dvh p-24">
-      <h1>task manager</h1>
+      <h1 className="mb-5 text-4xl font-bold">Task Manager</h1>
       <div>
         <SignInButton fallbackRedirectUrl="/board" mode="modal">
           <Button>Sign in</Button>
