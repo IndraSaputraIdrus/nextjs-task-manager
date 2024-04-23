@@ -5,7 +5,8 @@ export default async function BoardPage() {
   const boards = await getBoards()
   return (
     <div className="p-10 space-y-5">
-      <Boards boards={boards ?? []} />
+      <h1 className="text-4xl font-semibold">List board</h1>
+      <Boards boards={boards} />
     </div>
   )
 }

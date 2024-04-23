@@ -2,17 +2,14 @@
 
 import CreateBoardForm from "@/components/create-board-form"
 import BoardList from "@/components/board-list"
-import { InferSelectModel } from "drizzle-orm"
-import { boards } from "@/lib/schema"
+import type { Board } from "@/lib/schema"
 import { useOptimistic } from "react"
 
 type Props = {
-  boards: Array<InferSelectModel<typeof boards>>
+  boards: Array<Board>
 }
 
 export type Actions = "create"
-
-type Board = InferSelectModel<typeof boards>
 
 export function boardReducer(
   state: Array<Board>,

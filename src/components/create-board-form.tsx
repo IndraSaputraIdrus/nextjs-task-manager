@@ -36,28 +36,30 @@ export default function CreateBoardForm({
       action: "create",
       board: {
         id: "",
+        userId: "",
         title: data.get("title") as string,
         description: data.get("description") as string,
         createdAt: "",
         updatedAt: ""
       }
     })
-    toast({
-      title: "Board created succesfully",
-      className: "bg-primary text-primary-foreground"
-    })
     formRef.current?.reset()
     formAction(data)
   }
 
-  // useEffect(() => {
-  //   if (state.message === "success") {
-  //     toast({
-  //       title: "Board created succesfully",
-  //       className: "bg-primary text-primary-foreground"
-  //     })
-  //   }
-  // }, [state])
+  useEffect(() => {
+    if (state.message === "success") {
+      toast({
+        title: "Board created succesfully",
+        className: "bg-primary text-primary-foreground"
+      })
+    } else if (state.message === "failed") {
+      toast({
+        variant: "destructive",
+        title: "Faild to create board",
+      })
+    }
+  }, [state])
 
   return (
     <form ref={formRef} action={action} className="max-w-lg space-y-4">
