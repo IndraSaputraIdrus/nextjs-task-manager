@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { getWorkspace } from '@/services/workspaceService'
 import { notFound } from 'next/navigation'
-import React from 'react'
+import WorkspaceList from '@/components/workspace-list'
 
 type Props = {
   params: {
@@ -28,11 +28,14 @@ export default async function WorkSpace({ params: { boardId } }: Props) {
       <form className="space-y-4 max-w-lg" action={createWorkspaceItem}>
         <input type="hidden" name="boardId" value={boardId} />
         <Input type="text" name="title" />
+        <select name="status" className="block w-full">
+          <option value="todo">Todo</option>
+          <option value="in-progress">In Progress</option>
+          <option value="done">Done</option>
+        </select>
         <Button type="submit">Create</Button>
       </form>
-      {workspaces.map(workspace => (
-        <div>{workspace.title} - {workspace.status}</div>
-      ))}
+      <WorkspaceList workspaces={workspaces} />
     </div>
   )
 }

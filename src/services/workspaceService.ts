@@ -1,5 +1,5 @@
 import { db } from "@/lib/db"
-import { boards, workspaces } from "@/lib/schema"
+import { Workspace, boards, workspaces } from "@/lib/schema"
 import { getUserId } from "@/lib/utils"
 import { and, eq } from "drizzle-orm"
 
@@ -22,7 +22,7 @@ export const getWorkspace = async (boardId: string) => {
   }
 }
 
-export const insertWorkspceItem = async (boardId: string, workspace: { title: string, id: string }) => {
+export const insertWorkspceItem = async (boardId: string, workspace: Omit<Workspace, "createdAt" | "updatedAt">) => {
   const userId = getUserId()
   try {
     await db
