@@ -1,6 +1,6 @@
 "use client"
 
-import { ClerkLoading, SignOutButton } from "@clerk/nextjs";
+import { ClerkLoaded, ClerkLoading, SignOutButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button"
 import { Loader2 } from "lucide-react"
 import {
@@ -19,7 +19,6 @@ export default function MainHeader() {
 
   const router = usePathname()
   const listLink = router.split('/').filter((link => link))
-  console.log(listLink)
 
   return (
     <>
@@ -29,9 +28,11 @@ export default function MainHeader() {
             <Loader2 className="size-3 animate-spin absolute z-10" />
             <p className="opacity-0">Sign Out</p>
           </ClerkLoading>
-          <SignOutButton redirectUrl="/">
-            Sign Out
-          </SignOutButton>
+          <ClerkLoaded>
+            <SignOutButton redirectUrl="/">
+              Sign Out
+            </SignOutButton>
+          </ClerkLoaded>
         </Button>
       </header>
 
