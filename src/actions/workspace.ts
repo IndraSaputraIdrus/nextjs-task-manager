@@ -4,7 +4,7 @@ import { Workspace } from "@/lib/schema"
 import { insertWorkspceItem } from "@/services/workspaceService"
 import { revalidatePath } from "next/cache"
 
-export const createWorkspaceItem = async (data: FormData) => {
+export const createWorkspaceItem = async (_: any, data: FormData) => {
   const boardId = data.get("boardId") as string || ""
   const title = data.get("title") as string || ""
   const status = data.get("status") || "todo"
