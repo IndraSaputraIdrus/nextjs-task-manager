@@ -35,17 +35,19 @@ type Props = {
   boardId: string
 }
 
-export default function WorkspaceForm({ boardId }: Props) {
+export default function WorkspaceCreateForm({ boardId }: Props) {
   const [open, setOpen] = useState(false)
   const formRef = useRef<HTMLFormElement>(null)
-  const [_, formAction] = useFormState(createWorkspaceItem, null)
+  const [_, createFormAction] = useFormState(createWorkspaceItem, null)
 
   const action = async (data: FormData) => {
     formRef.current?.reset()
-    formAction(data)
+    let message: string = ""
+    createFormAction(data)
+    message = "Create success"
     setOpen(false)
     toast({
-      title: "Board created succesfully",
+      title: message,
       className: "bg-primary text-primary-foreground"
     })
   }

@@ -1,7 +1,8 @@
 import { getWorkspace } from '@/services/workspaceService'
 import { notFound } from 'next/navigation'
 import WorkspaceList from '@/components/workspace-list'
-import WorkspaceForm from '@/components/workspace-form'
+import WorkspaceCreateForm from '@/components/workspace-create-form'
+import WorkspaceForms from '@/components/workspace-forms'
 
 
 type Props = {
@@ -23,7 +24,7 @@ export default async function WorkSpace({ params: { boardId } }: Props) {
   return (
     <div className="p-10">
       <h1 className="text-3xl font-bold mb-5">Workspace - {boardTitle}</h1>
-      <WorkspaceForm boardId={boardId} />
+      <WorkspaceForms boardId={boardId} />
       <WorkspaceList workspaces={workspaces} />
     </div>
   )

@@ -38,3 +38,16 @@ export const insertWorkspceItem = async (boardId: string, workspace: Omit<Worksp
     return false
   }
 }
+
+export const updateWorkspaceItem = async (workspace: Omit<Workspace, "createdAt" | "updatedAt">) => {
+  const userId = getUserId()
+
+  try {
+    await db.update(workspaces).set({
+      ...workspace,
+    }).where(and(eq(workspaces.userId, userId), eq(workspaces.id, workspace.id)))
+  } catch (error) {
+    console.log(error)
+    return false
+  }
+}
