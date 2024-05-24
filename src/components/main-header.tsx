@@ -1,8 +1,6 @@
 "use client"
 
-import { ClerkLoaded, ClerkLoading, SignOutButton } from "@clerk/nextjs";
 import { Button } from "@/components/ui/button"
-import { Loader2 } from "lucide-react"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -24,15 +22,7 @@ export default function MainHeader() {
     <>
       <header className="px-10 py-4 flex items-center">
         <Button className="ml-auto relative">
-          <ClerkLoading>
-            <Loader2 className="size-3 animate-spin absolute z-10" />
-            <p className="opacity-0">Sign Out</p>
-          </ClerkLoading>
-          <ClerkLoaded>
-            <SignOutButton redirectUrl="/">
-              Sign Out
-            </SignOutButton>
-          </ClerkLoaded>
+          test
         </Button>
       </header>
 

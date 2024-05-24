@@ -13,7 +13,8 @@ type Props = {
 
 export default async function WorkSpace({ params: { boardId } }: Props) {
 
-  const workspacesData = await getWorkspace(boardId)
+  // const workspacesData = await getWorkspace(boardId)
+  const workspacesData = null
 
   if (!workspacesData) {
     return notFound()
