@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from "@/components/ui/button"
+import LogoutButton from "@/components/logout-button"
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -20,10 +20,8 @@ export default function MainHeader() {
 
   return (
     <>
-      <header className="px-10 py-4 flex items-center">
-        <Button className="ml-auto relative">
-          test
-        </Button>
+      <header className="px-10 py-4 flex items-center justify-end">
+        <LogoutButton />
       </header>
 
       <Breadcrumb className="px-10">

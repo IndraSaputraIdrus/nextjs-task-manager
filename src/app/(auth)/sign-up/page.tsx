@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import { useFormState } from "react-dom"
 import { useEffect } from "react"
 
-export default async function Page() {
+export default function Page() {
 
   const [state, formAction] = useFormState(signUp, { error: null })
 
@@ -26,7 +26,7 @@ export default async function Page() {
           <label htmlFor="password">Password</label>
           <Input type="password" name="password" id="password" />
         </div>
-        <Button>Continue</Button>
+        <Button>Submit</Button>
       </form>
     </main>
   );

@@ -20,9 +20,7 @@ const singUpValidator = z.object({
 })
 
 export async function signUp(_: any, formData: FormData): Promise<ActionResult> {
-  const username = formData.get('username')
-  const password = formData.get('password')
-  const valid = singUpValidator.safeParse({ username, password })
+  const valid = singUpValidator.safeParse(Object.fromEntries(formData))
 
   if (valid.error) {
     return { error: valid.error.flatten().fieldErrors }
@@ -55,5 +53,5 @@ export async function signUp(_: any, formData: FormData): Promise<ActionResult> 
   const sessionCookie = lucia.createSessionCookie(session.id)
   cookies().set(sessionCookie.name, sessionCookie.value, sessionCookie.attributes)
 
-  return { success: "sign up success" }
+  return redirect("/board")
 }
