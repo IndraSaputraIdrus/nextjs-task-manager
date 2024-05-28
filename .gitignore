@@ -37,3 +37,6 @@ next-env.d.ts
 
 # sqlite database
 sqlite.db
+
+# idx config
+/.idx

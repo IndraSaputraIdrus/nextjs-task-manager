@@ -14,19 +14,22 @@ import { Button, buttonVariants } from "@/components/ui/button"
 import { useFormState, useFormStatus } from "react-dom";
 import { Plus } from "lucide-react"
 import { createBoard } from "@/actions/board"
-import { useUser } from "@/stores/user"
+import { useState } from "react"
 
 
-const Submit = () => {
+const Submit = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
   const { pending } = useFormStatus()
 
-  return <Button className="ml-auto" disabled={pending} type="submit">{pending ? "loading" : "submit"}</Button>
+  return <Button onClick={() => {
+    if(!pending) setOpen(false)
+  }} className="ml-auto" disabled={pending} type="submit">{pending ? "loading" : "submit"}</Button>
 }
 
 export const CreateBoard = () => {
   const [state, formAction] = useFormState(createBoard, { error: null })
+  const [open, setOpen] = useState(false)
   return (
-    <Sheet>
+    <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger className={buttonVariants({ variant: "default", size: "icon" })}><Plus /></SheetTrigger>
       <SheetContent side="right">
         <SheetHeader>
@@ -34,13 +37,9 @@ export const CreateBoard = () => {
           <form action={formAction} className="max-w-lg space-y-4 flex flex-col">
             <Input name="title" type="text" placeholder="Title" />
             <Textarea name="description" placeholder="Description" />
-            <Input name="userId" type="text" placeholder="Title" />
-            <Submit />
+            <Submit setOpen={setOpen} />
           </form>
         </SheetHeader>
-        <div>
-          {JSON.stringify(state, null, 2)}
-        </div>
       </SheetContent>
     </Sheet>
   )

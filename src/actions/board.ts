@@ -5,11 +5,12 @@ import { generateId } from "lucia"
 import { db } from "@/lib/db"
 import { boardsTable } from "@/lib/db/schema"
 import { z } from "zod"
+import { validateRequest } from "@/lib/auth"
 
 const createBoardSchema = z.object({
   title: z.string().min(3),
   description: z.string().min(3),
-  // userId: z.string().min(1)
+  userId: z.string().min(1)
 })
 
 interface ActionResult {
@@ -17,7 +18,10 @@ interface ActionResult {
 }
 
 export const createBoard = async (_: any, data: FormData): Promise<ActionResult> => {
-  const result = createBoardSchema.safeParse(Object.fromEntries(data))
+
+  const {user} = await validateRequest()
+
+  const result = createBoardSchema.safeParse({...Object.fromEntries(data), userId: user!.id})
 
   if (result.error) {
     return {
@@ -25,7 +29,7 @@ export const createBoard = async (_: any, data: FormData): Promise<ActionResult>
     }
   }
 
-  const { description, title } = result.data
+  const { description, title, userId } = result.data
   const id = generateId(10)
 
   const inserted = await db.insert(boardsTable)
@@ -33,7 +37,7 @@ export const createBoard = async (_: any, data: FormData): Promise<ActionResult>
       description,
       id,
       title,
-      userId: "123",
+      userId,
     })
     .returning()
     .then(res => res[0])

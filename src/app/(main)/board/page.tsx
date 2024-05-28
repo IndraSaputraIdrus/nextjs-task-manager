@@ -23,9 +23,9 @@ export default async function BoardPage() {
 
       <div className="mt-5 grid grid-cols-3 gap-4">
         {
-          boards.map((_, index) => (
-            <Link key={index} href="/">
-              <div className="hover:text-blue-500 hover:border-blue-500 border-2 border-zinc-800 rounded p-5 transition">Board Name</div>
+          boards.map((board) => (
+            <Link key={board.id} href={`/board/${board.id}`}>
+              <div className="hover:text-blue-500 hover:border-blue-500 border-2 border-zinc-800 rounded p-5 transition">{board.title}</div>
             </Link>
           ))
         }
