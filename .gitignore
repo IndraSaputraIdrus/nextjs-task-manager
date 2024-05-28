@@ -40,3 +40,4 @@ sqlite.db
 
 # idx config
 /.idx
+/.vscode
