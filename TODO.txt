@@ -1,1 +1,2 @@
-Lagi di kerjain sign up pakai lucia
+[x] Lagi di kerjain sign up pakai lucia 
+[] validate userId ketika create (harus sama dengan di cookie)

@@ -36,14 +36,14 @@ export default function MainHeader() {
             if (listLink.length === 1) {
               return (
                 <>
-                  <BreadcrumbItem>
+                  <BreadcrumbItem key={index}>
                     <BreadcrumbPage className="capitalize">{link}</BreadcrumbPage>
                   </BreadcrumbItem>
                 </>
               )
             } else if (index + 1 === listLink.length) {
               return (
-                <BreadcrumbItem>
+                <BreadcrumbItem key={index}>
                   <BreadcrumbPage>{link}</BreadcrumbPage>
                 </BreadcrumbItem>
               )
@@ -51,7 +51,7 @@ export default function MainHeader() {
             else {
               return (
                 <>
-                  <BreadcrumbItem>
+                  <BreadcrumbItem key={index}>
                     <BreadcrumbLink className="capitalize" asChild>
                       <Link href={`/${link}`}>{link}</Link>
                     </BreadcrumbLink>

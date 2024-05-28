@@ -1,6 +1,6 @@
 "use server"
 
-import { Workspace } from "@/lib/schema"
+import { Workspace } from "@/lib/db/schema"
 import { insertWorkspceItem, updateWorkspaceItem } from "@/services/workspaceService"
 import { revalidatePath, revalidateTag } from "next/cache"
 

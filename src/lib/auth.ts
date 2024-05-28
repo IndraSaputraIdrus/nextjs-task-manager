@@ -16,7 +16,10 @@ export const lucia = new Lucia(adapter, {
       // set to `true` when using HTTPS
       secure: process.env.NODE_ENV === "production"
     }
-  }
+  },
+  getUserAttributes: (attributes) => ({
+    username: attributes.username
+  })
 });
 
 export const validateRequest = cache(
