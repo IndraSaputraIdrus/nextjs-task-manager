@@ -10,20 +10,29 @@ import { redirect } from "next/navigation";
 import { eq } from "drizzle-orm";
 
 interface ActionResult {
-  success?: string;
-  error?: any;
+  formError?: {
+    username?: string[] | undefined,
+    password?: string[] | undefined,
+    confirmPassword?: string[] | undefined
+  },
+  error?: string;
 }
 
 const singUpValidator = z.object({
   username: z.string().min(3).max(31),
-  password: z.string().min(3).max(31)
+  password: z.string().min(3).max(31),
+  confirmPassword: z.string().min(3).max(31)
+})
+.refine((field) => field.password === field.confirmPassword, {
+  path: ['confirmPassword'],
+  message: "Password don't match!"
 })
 
 export async function signUp(_: any, formData: FormData): Promise<ActionResult> {
   const valid = singUpValidator.safeParse(Object.fromEntries(formData))
 
   if (valid.error) {
-    return { error: valid.error.flatten().fieldErrors }
+    return { formError: valid.error.flatten().fieldErrors }
   }
 
   const data = valid.data

@@ -4,6 +4,7 @@ import { signIn } from "@/actions/auth/signin"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { useFormState } from "react-dom"
+import Link from "next/link"
 
 export default function SignInPage() {
 
@@ -32,6 +33,7 @@ export default function SignInPage() {
         </div>
         <Button>Submit</Button>
       </form>
+      <p className="text-center mt-5">Don't have an account? <Link className="text-indigo-500 hover:text-indigo-300" href="/sign-up">Sign up</Link></p>
     </main>
   );
 }

@@ -8,7 +8,9 @@ import { eq } from "drizzle-orm"
 const getBoards = async () => {
   const { user } = await validateRequest()
 
-  return db.select().from(boardsTable).where(eq(boardsTable.userId, user!.id))
+  if(!user) return
+
+  return db.select().from(boardsTable).where(eq(boardsTable.userId, user.id))
 }
 
 
@@ -23,7 +25,7 @@ export default async function BoardPage() {
 
       <div className="mt-5 grid grid-cols-3 gap-4">
         {
-          boards.map((board) => (
+          boards && boards.map((board) => (
             <Link key={board.id} href={`/board/${board.id}`}>
               <div className="hover:text-blue-500 hover:border-blue-500 border-2 border-zinc-800 rounded p-5 transition">{board.title}</div>
             </Link>
