@@ -1,6 +1,8 @@
 import { text, sqliteTable } from "drizzle-orm/sqlite-core"
 import { timestamp } from "./timestamp"
 import { boards } from "./boards"
+import { relations } from "drizzle-orm"
+import { boardsTable } from "."
 
 export const workspaces = sqliteTable("workspaces", {
   id: text("id").notNull().primaryKey(),
@@ -10,3 +12,10 @@ export const workspaces = sqliteTable("workspaces", {
   status: text("status", { enum: ["todo", "in-progress", "done"] }).notNull().default("todo"),
   ...timestamp
 })
+
+export const workspacesRelations = relations(workspaces, ({ one }) => ({
+  board: one(boardsTable, {
+    fields: [workspaces.boardId],
+    references: [boardsTable.id]
+  })
+}))

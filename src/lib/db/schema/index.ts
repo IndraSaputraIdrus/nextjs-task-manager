@@ -1,5 +1,5 @@
-import { workspaces } from "./workspaces"
-import { boards } from "./boards"
+import { workspaces, workspacesRelations } from "./workspaces"
+import { boards, boardsRelations } from "./boards"
 import { users } from "./users"
 import { sessions } from "./sessions"
 import { InferSelectModel } from "drizzle-orm"
@@ -11,5 +11,7 @@ export {
   workspaces as workspacesTable,
   boards as boardsTable,
   users as usersTable,
-  sessions as sessionsTable
+  sessions as sessionsTable,
+  workspacesRelations,
+  boardsRelations
 }

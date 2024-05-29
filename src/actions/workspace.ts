@@ -1,48 +1,57 @@
 "use server"
 
-import { Workspace } from "@/lib/db/schema"
-import { insertWorkspceItem, updateWorkspaceItem } from "@/services/workspaceService"
-import { revalidatePath, revalidateTag } from "next/cache"
+import { boardsTable, workspacesTable } from "@/lib/db/schema"
+import { db } from "@/lib/db"
+import { generateId } from "lucia"
+import { revalidatePath, } from "next/cache"
+import { z } from "zod"
+import { validateRequest } from "@/lib/auth"
+import { eq } from "drizzle-orm"
 
-export const createWorkspaceItem = async (_: any, data: FormData) => {
-  const boardId = data.get("boardId") as string || ""
-  const title = data.get("title") as string || ""
-  const status = data.get("status") || "todo"
-  const id = crypto.randomUUID()
+const createWorkspaceSchema = z.object({
+  title: z.string().min(3),
+  boardId: z.string().min(1)
+})
 
-  const formData = {
-    id, status, title, boardId
-  } as Workspace
-
-  const inserted = await insertWorkspceItem(boardId, formData)
-
-  if (!inserted) {
-    return { message: "failed" }
-  }
-
-  revalidatePath(`/board/${boardId}`)
-
-  return { message: "success" }
-
+type ActionResult = {
+  error: any
 }
 
-export const updateWorkspaceItemAction = async (_: any, data: FormData) => {
-  const id = data.get("id") as string
-  const title = data.get("title") as string
-  const status = data.get("status") as string
-  const boardId = data.get("boardId") as string
+export const createWorkspaceItem = async (_: any, data: FormData): Promise<ActionResult> => {
+  const { user } = await validateRequest()
 
-  const formData = {
-    id, title, status, boardId
-  } as Workspace
-
-  const updated = await updateWorkspaceItem(formData)
-
-  if (updated) {
-    return { message: "failed" }
+  if (!user) {
+    return { error: "Unauthorized" }
   }
+
+  const validate = createWorkspaceSchema.safeParse(Object.fromEntries(data))
+
+  if (validate.error) {
+    return {
+      error: validate.error.flatten().fieldErrors
+    }
+  }
+
+  const { boardId, title } = validate.data
+  const id = generateId(10)
+
+  const existingBoard = await db
+    .select()
+    .from(boardsTable)
+    .where(eq(boardsTable.id, boardId))
+    .then(res => res[0])
+
+  if(!existingBoard) {
+    return {
+      error: "Board not found"
+    }
+  }
+
+  await db
+    .insert(workspacesTable)
+    .values({ id, boardId, title, userId: user.id })
 
   revalidatePath(`/board/${boardId}`)
 
-  return { message: "success" }
+  return { error: "" }
 }

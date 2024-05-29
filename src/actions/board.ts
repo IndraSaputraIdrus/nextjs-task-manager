@@ -19,9 +19,9 @@ interface ActionResult {
 
 export const createBoard = async (_: any, data: FormData): Promise<ActionResult> => {
 
-  const {user} = await validateRequest()
+  const { user } = await validateRequest()
 
-  const result = createBoardSchema.safeParse({...Object.fromEntries(data), userId: user!.id})
+  const result = createBoardSchema.safeParse({ ...Object.fromEntries(data), userId: user!.id })
 
   if (result.error) {
     return {
@@ -49,5 +49,5 @@ export const createBoard = async (_: any, data: FormData): Promise<ActionResult>
 
   revalidatePath("/board")
 
-  return { error: "success" }
+  return { error: "" }
 }
