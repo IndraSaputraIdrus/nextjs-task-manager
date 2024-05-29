@@ -1,6 +1,7 @@
 import { CreateWorkspace } from "@/components/create-workspace"
 import { validateRequest } from "@/lib/auth"
 import { db } from "@/lib/db"
+import { notFound } from "next/navigation"
 
 type Props = {
   params: {
@@ -23,6 +24,8 @@ const getBoardWithWorkspaces = async (id: string) => {
 export default async function WorkSpace({ params: { id } }: Props) {
   const board = await getBoardWithWorkspaces(id)
 
+  if(!board) return notFound()
+
   return (
     <div className="p-10">
       <div className="flex gap-5">
@@ -30,7 +33,7 @@ export default async function WorkSpace({ params: { id } }: Props) {
         <CreateWorkspace boardId={id} />
       </div>
       <div className="grid grid-cols-3 gap-5">
-        {board?.workspaces.map(workspace => (
+        {board.workspaces.map(workspace => (
           <div className="border border-zinc-800 rounded space-y-5 p-5">
             <h2 className="font-semibold text-lg capitalize">{workspace.title}</h2>
             <span className="inline-block text-xs uppercase rounded-full px-5 py-1 bg-green-200 text-green-600">{workspace.status}</span>
