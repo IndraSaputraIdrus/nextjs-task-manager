@@ -1,23 +1,18 @@
+import { Workspace } from "@/lib/db/schema"
 import { create } from "zustand"
 
-type FormValue = {
-  id: string
-  title: string
-  status: string
-}
-
 type Store = {
-  data: FormValue | null
+  data: Workspace | undefined
   open: boolean
-  setOpen: (val: boolean) => void
-  setData: (val: FormValue) => void
+  setOpen: (value: boolean) => void
+  setData: (value: Workspace | undefined) => void
 }
 
 export const useWorkspaceStore = create<Store>()((set) => ({
-  data: null,
+  data: undefined,
   open: false,
-  setOpen: (val) => set({ open: val }),
-  setData: (val) => set({
-    data: val
+  setOpen: (value) => set({ open: value}),
+  setData: (value) => set({
+    data: value
   })
 }))

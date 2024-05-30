@@ -1,4 +1,4 @@
-import { CreateWorkspace } from "@/components/create-workspace"
+import { WorkspaceForm } from "@/components/workspace-form"
 import { WorkspaceItems } from "@/components/workspace-items"
 import { validateRequest } from "@/lib/auth"
 import { db } from "@/lib/db"
@@ -33,7 +33,7 @@ export default async function WorkSpace({ params: { id } }: Props) {
     <div className="p-10">
       <div className="flex gap-5">
         <h1 className="text-3xl font-bold mb-5">{board?.title}</h1>
-        <CreateWorkspace boardId={id} />
+        <WorkspaceForm boardId={id} />
       </div>
       <WorkspaceItems workspaces={workspaces} />
     </div>
