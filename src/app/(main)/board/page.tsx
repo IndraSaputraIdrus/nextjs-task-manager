@@ -4,13 +4,18 @@ import { db } from "@/lib/db";
 import { boardsTable } from "@/lib/db/schema";
 import { validateRequest } from "@/lib/auth";
 import { eq } from "drizzle-orm"
+import { Metadata } from "next"
 
 const getBoards = async () => {
   const { user } = await validateRequest()
 
-  if(!user) return
+  if (!user) return
 
   return db.select().from(boardsTable).where(eq(boardsTable.userId, user.id))
+}
+
+export const metadata: Metadata = {
+  title: `Task Manager | your board`
 }
 
 

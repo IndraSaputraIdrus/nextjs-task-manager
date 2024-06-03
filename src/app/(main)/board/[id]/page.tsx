@@ -1,6 +1,7 @@
 import { WorkspaceForm } from "@/components/workspace-form"
 import { WorkspaceItems } from "@/components/workspace-items"
 import { validateRequest } from "@/lib/auth"
+import { Metadata } from "next"
 import { db } from "@/lib/db"
 import { notFound } from "next/navigation"
 
@@ -8,6 +9,25 @@ type Props = {
   params: {
     id: string
   }
+}
+
+export const generateMetadata = async ({ params: { id } }: { params: { id: string } }): Promise<Metadata> => {
+  const boardTitle = await db.query.boardsTable.findFirst({
+    where: (board, { eq }) => eq(board.id, id),
+  })
+
+  let title
+
+  if (!boardTitle) {
+    title = "Task Manager"
+  } else {
+    title = boardTitle.title
+  }
+
+  return {
+    title
+  }
+
 }
 
 const getBoardWithWorkspaces = async (id: string) => {
